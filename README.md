@@ -1,4 +1,4 @@
 NTLMSoap
 =====
 
-A Simple class to make Soap calls against NTLM authenticated Soap Services
+A PHP library providing a SOAP client for services with NTLM authentication.

@@ -1,0 +1,17 @@
+*.iml
+*.log
+target
+build
+vendor
+composer.lock
+bower_components
+node_modules
+npm-debug.log
+log/
+web/assets/css
+web/assets/js
+web/assets/gfx/respond.proxy.gif
+web/assets/respond-proxy.html
+.buildpath
+.project
+.settings
