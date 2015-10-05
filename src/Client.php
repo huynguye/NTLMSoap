@@ -9,7 +9,7 @@ use \Psr\Log\LoggerInterface;
 
 class Client extends \SoapClient {
 	use LoggerAwareTrait;
-	
+
 	private $options = Array();
 	private $__last_request;
 
@@ -25,33 +25,33 @@ class Client extends \SoapClient {
 		if($logger){
 			$this->setLogger($logger);
 		}
-		
+
 		$this->options = $data;
-		
+
 		if(empty($data['ntlm_username']) && empty($data['ntlm_password'])){
 			parent::__construct($url, $data);
 		}else{
 			$this->use_ntlm	= true;
 			HttpStream\NTLMStream::$user = $data['ntlm_username'];
 			HttpStream\NTLMStream::$password = $data['ntlm_password'];
-			
+
 			stream_wrapper_unregister('http');
-			if(!stream_wrapper_register('http', '\\NTLMSoap\\HttpStream\\NTLM')){
+			if(!stream_wrapper_register('http', '\\NTLMSoap\\HttpStream\\NTLMStream')){
 				throw new Exception("Unable to register HTTP Handler");
 			}
-			
+
 			$time_start = microtime(true);
 			parent::__construct($url, $data);
-			
+
 			if(!empty($this->logger) && (($end_time = microtime(true) - $time_start) > 0.1)){
 				$this->logger->debug("WSDL Timer", Array("time" => $end_time, "url" => $url));
 			}
-			
+
 			stream_wrapper_restore('http');
 		}
-		
+
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see SoapClient::__doRequest()
@@ -62,14 +62,14 @@ class Client extends \SoapClient {
 
 		$ch = curl_init($location);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		
+
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			'Method: POST',
 			'User-Agent: PHP-SOAP-CURL',
 			'Content-Type: text/xml; charset=utf-8',
 			'SOAPAction: "' . $action . '"',
 		));
-		
+
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
 		curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
@@ -99,5 +99,5 @@ class Client extends \SoapClient {
 		}
 		return $response;
 	}
-	
+
 }

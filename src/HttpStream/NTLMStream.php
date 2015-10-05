@@ -27,13 +27,13 @@ class NTLMStream {
 	private $opened_path;
 	private $buffer;
 	private $pos;
-    private $ch;
+	private $ch;
 
 	public static $user;
 	public static $password;
 
 	/**
-	 * Open the stream 
+	 * Open the stream
 	 *
 	 * @param string $path
 	 * @param string $mode
@@ -103,7 +103,7 @@ class NTLMStream {
 		//echo "[NTLMStream::stream_eof] ";
 
 		if($this->pos > strlen($this->buffer)) {
-		//	echo "true \n";
+			//	echo "true \n";
 			return true;
 		}
 
@@ -146,8 +146,8 @@ class NTLMStream {
 	/**
 	 * Stat the url, return only the size of the buffer
 	 *
-     * @param string $path
-     * @param string $flags
+	 * @param string $path
+	 * @param string $flags
 	 * @return array stat information
 	 */
 	public function url_stat($path, $flags) {
